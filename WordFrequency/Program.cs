@@ -19,6 +19,7 @@ namespace WordFrequency
             int maxList = 0;
             string url = "";
             bool valid = false;
+            var freqeuncyDictionary = new ConcurrentDictionary<string, int>();
 
             while (!valid)
             {
@@ -70,12 +71,20 @@ namespace WordFrequency
                         foreach (var word in words)
                         {
                             buffer.Add(new Record() { Id = 1, Word = word });
+                            if (freqeuncyDictionary.ContainsKey(word))
+                            {
+                                freqeuncyDictionary[word] = freqeuncyDictionary[word] + 1;
+                            }
+                            else
+                            {
+                                freqeuncyDictionary.AddOrUpdate(word, 1, (key, oldValue) => oldValue + 1);
+                            }
                         }
 
-                        SqliteDB.SaveBuffer(maxList, ref buffer, context);
+                        //SqliteDB.SaveBuffer(maxList, ref buffer, context);
                     };
 
-                    SqliteDB.SaveBuffer(0, ref buffer, context);
+                    //SqliteDB.SaveBuffer(0, ref buffer, context);
                 }
             });
 
@@ -100,7 +109,7 @@ namespace WordFrequency
                 }
             }
 
-            OutputResults(top, maxList, connectionString);
+            //OutputResults(top, maxList, connectionString);
 
             Console.WriteLine();
             Console.WriteLine("Done");
@@ -154,7 +163,7 @@ namespace WordFrequency
             bufferSize = 100;
             top = 10;
             maxList = 1000;
-            url = "https://www.simbirsoft.com/";
+            url = "http://www.gutenberg.org/files/2600/2600-0.txt";
 
             Console.WriteLine("Use default parameters? y/n");
             if (Console.ReadLine() == "n")

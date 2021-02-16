@@ -38,7 +38,7 @@ namespace WordFrequency
         {
             bufferSize = 100;
             top = 10;
-            url = "http://www.gutenberg.org/files/2600/2600-0.txt";
+            url = "https://www.simbirsoft.com/";
 
             Console.WriteLine("Use default parameters? y/n");
             if (Console.ReadLine() == "n")

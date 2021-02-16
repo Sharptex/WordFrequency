@@ -9,13 +9,24 @@ namespace WordFrequency
 {
     public class SqliteDB
     {
-        public static void SaveBuffer(int maxList, ref List<Record> buffer, RecordContext context)
+        public static void SaveDictionary(ConcurrentDictionary<string, int> freqeuncyDictionary, string connectionString)
         {
-            if (buffer.Count() > maxList)
+            try
             {
-                context.Records.AddRange(buffer);
-                context.SaveChanges();
-                buffer = new List<Record>();
+                using (var context = new RecordContext(connectionString))
+                {
+                    var buffer = new List<Stat>();
+                    foreach (var item in freqeuncyDictionary)
+                    {
+                        buffer.Add(new Stat() { Id = 1, Word = item.Key, Count = item.Value });
+                    }
+                    context.Stats.AddRange(buffer);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write(ex);
             }
         }
     }

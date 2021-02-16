@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleIO.cs" />
     <Compile Include="HttpResponseSaver.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
